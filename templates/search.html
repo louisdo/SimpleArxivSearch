@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+body {
+  font-family: Arial;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+form.example input[type=text] {
+  padding: 10px;
+  font-size: 17px;
+  border: 1px solid grey;
+  float: left;
+  width: 80%;
+  background: #f1f1f1;
+}
+
+form.example button {
+  float: left;
+  width: 20%;
+  padding: 10px;
+  background: #2196F3;
+  color: white;
+  font-size: 17px;
+  border: 1px solid grey;
+  border-left: none;
+  cursor: pointer;
+}
+
+form.example button:hover {
+  background: #0b7dda;
+}
+
+form.example::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+</style>
+</head>
+
+<script>
+  function get_arvix_id_link(arxiv_id){
+    var base = "https://arxiv.org/abs/";
+    var link = base + arxiv_id;
+    document.write("<a href=" + link + ">" + arxiv_id + "</a>");
+  }
+
+  function highlight_result(result){
+    var querystr = '{{ query }}';
+    var reg = new RegExp(querystr, 'gi');
+    var final_str = result.replace(reg, function(str) {return '<mark>'+str+'</mark>'});
+    document.write("<b>" + final_str + "</b>");
+  }
+</script>
+
+<body>
+    <div class="col-md-8">
+        <div class="row">
+            <h4>Search result for: <i style="color:Tomato;">{{query}}</i></h4>
+            {% for sres in search_result %}
+            <p>
+              <div class="col-md-3">
+                <div class="log-line">
+                  <script>get_arvix_id_link('{{ sres["arxiv_id"] }}')</script>
+                   - {{ sres["categories"]}} - 
+                   <script>highlight_result('{{ sres["sentence"] }}')</script>
+              </div>
+            </p>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>

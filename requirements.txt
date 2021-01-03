@@ -1,0 +1,4 @@
+whoosh
+pandas
+numpy
+spacy
